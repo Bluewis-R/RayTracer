@@ -14,9 +14,6 @@ add_library(RayTracer
 
 
 )
-
-#add_library(rend src/rend/test.cpp)
-
 add_executable(game
     src/game/main.cpp 
 )
