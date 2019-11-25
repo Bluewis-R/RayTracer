@@ -4,15 +4,23 @@ project(RAYTRACER)
 include_directories(src)
 
 add_library(RayTracer
-    src/RayTracer/Bones.h
+    src/RayTracer/RayTracer.h
     src/RayTracer/Macros.h
 
     src/Raytracer/MCG_GFX_Lib.h
     src/Raytracer/MCG_GFX_Lib.cpp
 
-    
+    src/Raytracer/Camera.h
+    src/Raytracer/Ray.h
+    src/Raytracer/Tracer.h
+	src/Raytracer/Object.h    
+    src/Raytracer/Sphere.h    
 
-
+    src/Raytracer/Camera.cpp
+    src/Raytracer/Ray.cpp
+    src/Raytracer/Tracer.cpp
+	src/Raytracer/Object.cpp    
+    src/Raytracer/Sphere.cpp
 )
 add_executable(game
     src/game/main.cpp 
