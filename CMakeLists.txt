@@ -13,14 +13,16 @@ add_library(RayTracer
     src/Raytracer/Camera.h
     src/Raytracer/Ray.h
     src/Raytracer/Tracer.h
-	src/Raytracer/Object.h    
-    src/Raytracer/Sphere.h    
+    src/Raytracer/Object.h    
+    src/Raytracer/Sphere.h  
+    src/Raytracer/LewisMaths.h  
 
     src/Raytracer/Camera.cpp
     src/Raytracer/Ray.cpp
     src/Raytracer/Tracer.cpp
-	src/Raytracer/Object.cpp    
-    src/Raytracer/Sphere.cpp
+    src/Raytracer/Object.cpp    
+    src/Raytracer/Sphere.cpp  
+    src/Raytracer/LewisMaths.cpp
 )
 add_executable(game
     src/game/main.cpp 
