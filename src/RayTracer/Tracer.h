@@ -10,13 +10,13 @@
 struct RayIData
 {
   RayIData(bool _isCollide) { m_isCollide = _isCollide; }
-  RayIData(bool _isCollide, glm::vec3 _hit)
+  RayIData(bool _isCollide, float _hit)
   {
     m_isCollide = _isCollide;
     m_distance = _hit;
   }
   bool m_isCollide;
-  glm::vec3 m_distance;
+  float m_distance;
 };
 
 

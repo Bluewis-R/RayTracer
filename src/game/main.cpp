@@ -34,7 +34,7 @@ int main(int argc, char *argv[])
   glm::ivec2 pix1(1, 1);
   glm::ivec2 pix2(2, 2);
 
-  std::shared_ptr<Camera> cam = std::make_shared<Camera>();
+  std::shared_ptr<Camera> cam = std::make_shared<Camera>(glm::ivec2(WINDOW_WIDTH, WINDOW_HEIGHT));
   //cam->Fucntion1(pix1, pix2);
   //cam->Fucntion1(pix1, pix2);
 

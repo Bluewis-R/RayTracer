@@ -42,12 +42,12 @@ shared<RayIData> Tracer::RaySphereIntersection(shared<Ray> _ray, shared<Sphere> 
   // check if the closest point is behind the sphere
   //float dis = LMaths::FindDiscriminant(a,b,c);
 
-  if (distance <= sphereSize)
+  if (distance > sphereSize)
   {
     //  Ray dosn't hit the sphere
     return std::make_shared<RayIData>(false);
   }
-  else if (distance > sphereSize)
+  else if (distance <= sphereSize)
   {
     // Collides with sphere
     //d = || P - a - ((P-a)DOT n)*n ||
@@ -64,7 +64,14 @@ shared<RayIData> Tracer::RaySphereIntersection(shared<Ray> _ray, shared<Sphere> 
     // hits = closestPoint -n*x
     glm::vec3 hit = closestPoint - (n*x);
 
-    return std::make_shared<RayIData>(true, hit);
+    float rayToPoint = glm::distance(_ray->GetOrigin(), hit);
+
+
+    return std::make_shared<RayIData>(true, rayToPoint);
+  }
+  else
+  {
+    
   }
   
   
