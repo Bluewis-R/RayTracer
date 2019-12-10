@@ -15,23 +15,25 @@ Camera::Camera(glm::ivec2 _windowSize)
                         
   (*m_inverseProjectionMatrix) = projectionMatrix;
   //  View Matrix
-  m_viewMatrix = std::make_shared<glm::mat4>();
-
+  m_inverseViewMatrix = std::make_shared<glm::mat4>();
+  //TODO:  look up how to do forward vector
+  glm::mat4 viewMatrix = glm::lookAt(m_position, glm::vec3(0.0f, 0.0f, glm::radians(90.0f)), glm::vec3(0.0f, glm::radians(90.0f), 0.0f)); //(pos,forward vec of cam, up vec)
+  (*m_inverseViewMatrix) = viewMatrix;
 }
 
-shared<Ray> Camera::Fucntion1(glm::ivec2 _pixleCoord)
+shared<Ray> Camera::CreateRay(glm::ivec2 _pixleCoord)
 {
   shared<Ray> rtn = std::make_shared<Ray>(); //Ray(origin, direction)
   //  Normalised device coordinate 
   rtn->SetOrigin(glm::vec3(_pixleCoord.x/m_windowSize.x, _pixleCoord.y / m_windowSize.y, -1));
   rtn->SetDirection(glm::vec3(0.0f, 0.0f, 1.0f));
   
+  //  To convert from device space to worldspace
   rtn = (*rtn)* m_inverseProjectionMatrix;
-    
-    
+  // To convert from left hand to righthand TODO: aske leigh
 
+  //  To covert from worldspace to viewspace
+  rtn = (*rtn)* m_inverseViewMatrix;
 
-
-  //std::shared_ptr<Ray> rtn = std::make_shared<Ray>(glm::vec3(1.0, 1.0, 1.0), glm::vec3(2.0, 2.0, 2.0));
   return rtn;
 }

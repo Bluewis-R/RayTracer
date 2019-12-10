@@ -23,7 +23,7 @@ struct RayIData
 class Tracer
 {
 public:
-  shared<glm::vec3> TraceRay(Ray _ray);
+  glm::vec3 TraceRay(shared<Ray> _ray);
 
   glm::vec3 ClosetPoint(shared<Ray> _ray, glm::vec3 _point);
   shared<RayIData> RaySphereIntersection(shared<Ray > _ray, shared<Sphere> _sphere);

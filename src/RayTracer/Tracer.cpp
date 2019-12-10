@@ -1,9 +1,10 @@
 #include "Tracer.h"
 #include "LewisMaths.h"
 
-shared<glm::vec3> Tracer::TraceRay(Ray _ray)
+glm::vec3 Tracer::TraceRay(shared<Ray> _ray)
 {
-  return shared<glm::vec3>();
+  //returns colour
+  return glm::vec3(1.0f,0.0f,0.0f);
 }
 
 glm::vec3 Tracer::ClosetPoint(shared<Ray> _ray, glm::vec3 _point)

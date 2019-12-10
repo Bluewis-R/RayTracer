@@ -11,15 +11,16 @@ class Camera
 public:
   Camera(glm::ivec2 _windowSize);
 
- shared<Ray> Fucntion1(glm::ivec2 _pixleCoord); 
+ shared<Ray> CreateRay(glm::ivec2 _pixleCoord);
  
 
 private:
   glm::ivec2 m_windowSize;
 
-  shared<glm::mat4> m_viewMatrix;
+  shared<glm::mat4> m_inverseViewMatrix;
   shared<glm::mat4> m_inverseProjectionMatrix;
-  shared<glm::vec3> m_position;
+  glm::vec3 m_position = glm::vec3(0.0f, 0.0f, 0.0f);
+  glm::vec3 m_rotation = glm::vec3(0.0f, 0.0f, 0.0f);
   
 }; 
 
