@@ -84,15 +84,25 @@ void MCG::SetBackground( glm::ivec3 colour )
 	SDL_RenderClear( _renderer );
 
 }
-
+/*
 void MCG::DrawPixel( glm::ivec2 position, glm::ivec3 colour )
 {
 	// Set the colour for drawing
-	SDL_SetRenderDrawColor( _renderer, colour.r, colour.g, colour.b, 255 );
+	SDL_SetRenderDrawColor( _renderer, colour.r, colour.g, colour.b, 255);
 	// Draw our pixel
 	SDL_RenderDrawPoint( _renderer, position.x, position.y );
 }
+*/
 
+//  My addition to the code  
+//  Lewis Remington
+void MCG::DrawPixel(glm::ivec2 position, glm::ivec4 colour)
+{
+  // Set the colour for drawing
+  SDL_SetRenderDrawColor(_renderer, colour.r, colour.g, colour.b, colour.a);
+  // Draw our pixel
+  SDL_RenderDrawPoint(_renderer, position.x, position.y);
+}
 
 bool MCG::ProcessFrame()
 {

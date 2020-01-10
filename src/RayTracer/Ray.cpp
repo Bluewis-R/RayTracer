@@ -33,23 +33,15 @@ void Ray::SetDirection(glm::vec3 _direction)
 }
 
 
-shared<Ray> Ray::operator*(shared<glm::mat4> _mat)
-{
-  //  TODO: not sure if this efficient
-  //  Make a referance to the mat 
-  glm::mat4 testMat = *_mat;
-  shared<Ray> ray = std::make_shared<Ray>();
-  
-  //  Convert vec3 to vec4
-  glm::vec4 ori = glm::vec4(this->m_origin, 0.0f);
-  glm::vec4 dir = glm::vec4(this->m_direction, 0.0f);
-  
-  ori = ori * testMat;
-  dir = dir * testMat;
 
-  //  Convert vec4 back to vec3
-  ray->m_origin = ori;
-  ray->m_direction = dir;
-    
-  return ray;
+void Ray::MultiplyByMatrix(glm::mat4 _matrix)
+{
+  glm::vec4 ori = glm::vec4(m_origin, 0.0f);
+  glm::vec4 dir = glm::vec4(m_direction, 0.0f);
+
+  glm::vec4 tempo = (_matrix) * ori;
+  glm::vec4 tempd = (_matrix) * dir;
+
+  m_origin = tempo;
+  m_direction = tempd;
 }

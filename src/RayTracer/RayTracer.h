@@ -7,7 +7,8 @@
 
 #include "Macros.h"
 #include "Tracer.h"
-
+#include "Multithreading.h"
+#include "Light.h"
 
 
 #endif // !_RAYTRACER_H_

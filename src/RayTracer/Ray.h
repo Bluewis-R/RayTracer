@@ -17,6 +17,8 @@ public:
   void SetDirection(glm::vec3 _direction);
 
   shared<Ray> operator*(shared<glm::mat4> _mat);
+  void MultiplyByMatrix(glm::mat4 _matrix);
+
 
 private:
   glm::vec3 m_origin;

@@ -18,35 +18,45 @@ int main(int argc, char *argv[])
   MCG::Init(glm::ivec2(WINDOW_WIDTH, WINDOW_HEIGHT));
   MCG::SetBackground(black);
 
-
-  std::shared_ptr<Camera> cam = makeSh<Camera>(glm::ivec2(WINDOW_WIDTH, WINDOW_HEIGHT));
-  shared<Tracer> RayTracer = makeSh<Tracer>();
-
-
-  std::vector<shared<std::vector<shared<Ray>>>> rays;
- 
-  std::vector<shared<Ray>> temp_rays;
-  
-
-  for (int i = 0; i < WINDOW_WIDTH; i++)
-  { 
-    shared<std::vector<shared<Ray>>> tempVec;
-    for (int j = 0; j < WINDOW_HEIGHT; j++)
-    {
-      shared<Ray> tmpRay = cam->CreateRay(glm::ivec2(i, j));
-      tempVec->push_back(tmpRay);
-      MCG::DrawPixel(glm::ivec2(i, j), RayTracer->TraceRay(tmpRay));
-      //  Smalle
-
-    }
-    rays.push_back(tempVec);
-
-
-  }
-  
+  //
+  std::shared_ptr<Camera> cam = makeSh<Camera>(glm::ivec2(WINDOW_WIDTH, WINDOW_HEIGHT), 80.0f);
+  shared<Tracer> rayTracer = makeSh<Tracer>();
+  Multithreading threadingProgram = Multithreading(cam, rayTracer);
 
 
 
+  //  stuff in the "scene"
+  shared<Light> light1 = makeSh<Light>(
+    glm::vec3(1.0f, 1.0f, -2.0f),
+    glm::vec3(0.0f, 0.0f, 0.0f),
+    glm::vec4(255.0f, 255.0f, 255.0f, 255.0f), 1.0f);
+  shared<Sphere> sphere1 = makeSh<Sphere>(
+    glm::vec3(0.0f, 1.0f, 5.0f),
+    glm::vec4(255.0f, 255.0f, 0.0f, 255.0f), 1.0f, 0.01f);
+  shared<Sphere> sphere2 = makeSh<Sphere>(
+    glm::vec3(0.0f, 0.0f, 4.0f),
+    glm::vec4(255.0f, 0.0f, 0.0f, 255.0f), 1.0f, 0.01f);
+  rayTracer->AddLight(light1);
+  rayTracer->AddObject(sphere1);
+  rayTracer->AddObject(sphere2);
+
+
+  //  Multithreading Starts Here
+  threadingProgram.ControlRayTrace();
+  MCG::ProcessFrame();
+
+  //  Notes:
+  //  Multithreading
+  //    1)  Have the program do it with out any mutlithreading
+  //    2)  Have the program do multi threading with 2 threads (sequenctialy)
+  //    3)  Have the program work woth 4, 8, 12 threads
+  //    4)  have the threads render rows & coloums
+  //    5)  Have the threads run in Quadrednts
+  //    6)  Have the threads render on program at a time
+
+
+
+  //return MCG::ShowAndHold();
 
 
 
@@ -60,19 +70,3 @@ int main(int argc, char *argv[])
   MCG::Cleanup();
   return 0;
 }
-
-/*
-
-#include "MCG_GFX_Lib.h"
-
-#include <iostream>
-#include <string>
-#include <stdio.h>
-#include <stdlib.h>
-
-#include "Mandelbrot.h"
-#include "LineDrawer.h"
-#include "Curve.h"
-#include "shapes.h"
-
-*/

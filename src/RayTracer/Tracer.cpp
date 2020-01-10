@@ -1,11 +1,66 @@
 #include "Tracer.h"
 #include "LewisMaths.h"
+#include "Sphere.h"
+#include "Object.h"
+#include "Light.h"
 
-glm::vec3 Tracer::TraceRay(shared<Ray> _ray)
+Tracer::Tracer()
 {
-  //returns colour
-  return glm::vec3(1.0f,0.0f,0.0f);
+  m_sphere = makeSh<Sphere>();
 }
+
+glm::vec4 Tracer::TraceRay(shared<Ray> _ray)
+{
+  shared<Sphere> closestSphere;
+  shared<RayIData> closestRData;
+  bool oneIntersect = false;
+
+  for (int i = 0; i < m_objects.size(); i++)
+  {
+    shared<Sphere> tempSphere = std::dynamic_pointer_cast<Sphere>(m_objects.at(i));
+    shared<RayIData> tempRData = RaySphereIntersection(_ray, tempSphere);
+
+    //  checking for collision
+    if (tempRData->m_isCollide)
+    {
+      if (oneIntersect)
+      {
+        if (tempRData->m_distance < closestRData->m_distance)
+        {
+          closestSphere = tempSphere;
+          closestRData = tempRData;
+        }
+      }
+      else
+      {
+        oneIntersect = true;
+        closestSphere = tempSphere;
+        closestRData = tempRData;
+      }
+    }
+  }
+ 
+  if (closestSphere)
+  {
+    float lightValue = Light::GetLightValue(closestSphere, m_lights.at(0), _ray, closestRData);
+    return closestSphere->GetColour()*lightValue;
+
+  }
+  else
+  {
+    float k = 0;
+  }
+
+
+  return glm::vec4(0.0f, 0.0f, 255.0f, 0.0f);
+}
+
+ 
+
+
+
+  
+ 
 
 glm::vec3 Tracer::ClosetPoint(shared<Ray> _ray, glm::vec3 _point)
 {
@@ -40,7 +95,11 @@ shared<RayIData> Tracer::RaySphereIntersection(shared<Ray> _ray, shared<Sphere> 
   //find the closet point to the sphere
   float distance = glm::distance(spherePosition, closestPoint);
   
+  //TODO:
   // check if the closest point is behind the sphere
+  //float delta = glm::pow(b, 2.0f;)-4*c;
+
+  
   //float dis = LMaths::FindDiscriminant(a,b,c);
 
   if (distance > sphereSize)
@@ -67,14 +126,23 @@ shared<RayIData> Tracer::RaySphereIntersection(shared<Ray> _ray, shared<Sphere> 
 
     float rayToPoint = glm::distance(_ray->GetOrigin(), hit);
 
+    //  normal
+    glm::vec3 normal = glm::normalize(hit - spherePosition);
 
-    return std::make_shared<RayIData>(true, rayToPoint);
+    return std::make_shared<RayIData>(true, rayToPoint, normal);
   }
   else
   {
-    
+   //*float l = 0;
   }
-  
-  
+}
 
+void Tracer::AddLight(shared<Light> _light)
+{
+  m_lights.push_back(_light);
+}
+
+void Tracer::AddObject(shared<Object> _object)
+{
+  m_objects.push_back(_object);
 }
