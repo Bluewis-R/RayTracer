@@ -4,7 +4,6 @@
 
 #include "Macros.h"
 #include "MCG_GFX_Lib.h"
-#include <thread>
 #include <mutex>
 
 class Ray;
@@ -19,13 +18,17 @@ public:
   void RenderPixel(glm::ivec2 _PixelCoord);
   void ThreadFunction(int _totalThreads, int _thread);
 
-  float ControlRayTrace();
-  float TwoThreadRayTrace();
+  double ControlRayTrace();
+  double TwoThreadRayTrace();
+  double FourThreadRayTrace();
+  double SixThreadRayTrace();
+  double EightThreadRayTrace();
 
 
 protected:
   shared<Camera> m_camera;
   shared<Tracer> m_tracer;
+  std::mutex m_drawPixleMutex;
 
 
 };

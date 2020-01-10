@@ -24,14 +24,21 @@ float Light::GetLightValue(shared<Sphere> _sphere, shared<Light> _light, shared<
 {
   //  lighting             
   float ambient = _sphere->GetAmbient();
-  glm::vec3 rayIncident = (_sphere->GetPosition() - _light->GetPosition());
+  glm::vec3 lightVector = _sphere->GetPosition() - _light->GetPosition();
+  glm::vec3 rayIncident = glm::normalize(lightVector);
 
-  //float DOT = glm::abs(glm::dot(_rayData->m_normal, _ray->GetDirection()));
-  float DOT2 = glm::abs(glm::dot(_rayData->m_normal, rayIncident));
-
+  float DOT = glm::abs(glm::dot(_rayData->m_normal, rayIncident));
+  
   // http://www.robots.ox.ac.uk/~att/index.html
   //  Ambient + Diffuse constant * (Normal dot Ray[unit]) + Specular constant * (Normal dot L) ^ specular exponant
-  float endResult = ((0.01f*ambient)+(0.01f*(DOT2)) + (0.01f*glm::pow(DOT2, 2.0f)));
-  return endResult;
+  float endResult = ((0.8f*ambient)+(0.9f*(DOT)) + (0.4f*glm::pow(DOT, 100.0f)));
+  endResult *= (7.0f/ glm::length(lightVector*lightVector));
+
+  return glm::clamp(endResult, 0.0f, 1.0f);
 }
+
+
+
+
+
 

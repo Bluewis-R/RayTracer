@@ -43,7 +43,8 @@ glm::vec4 Tracer::TraceRay(shared<Ray> _ray)
   if (closestSphere)
   {
     float lightValue = Light::GetLightValue(closestSphere, m_lights.at(0), _ray, closestRData);
-    return closestSphere->GetColour()*lightValue;
+    float lightValue2 = Light::GetLightValue(closestSphere, m_lights.at(1), _ray, closestRData);
+    return closestSphere->GetColour()*(glm::clamp((lightValue + lightValue2), 0.0f, 1.0f));
 
   }
   else
@@ -52,7 +53,7 @@ glm::vec4 Tracer::TraceRay(shared<Ray> _ray)
   }
 
 
-  return glm::vec4(0.0f, 0.0f, 255.0f, 0.0f);
+  return glm::vec4(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
  
